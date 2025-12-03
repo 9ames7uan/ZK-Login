@@ -6,7 +6,7 @@
 ![ZK-Stack](https://img.shields.io/badge/tech-Circom%20|%20SnarkJS-violet.svg)
 ![Status](https://img.shields.io/badge/status-PoC%20Ready-green.svg)
 
-## 📖 Introduction (專案簡介)
+## 📖 Introduction
 
 **ZK-Bar** 是一個基於零知識證明 (Zero-Knowledge Proofs, ZKPs) 的身分驗證解決方案。它允許使用者向服務提供者證明其符合特定條件（如：年齡大於 18 歲），而**無需上傳身分證照片或洩露具體出生日期**。
 
@@ -16,7 +16,7 @@
 2.  **ZK-Login SDK**: 封裝好的 JavaScript SDK，供開發者快速整合。
 3.  **PoC Server**: 模擬驗證流程的後端範例。
 
-## 🏗 Architecture (系統架構)
+## 🏗 Architecture
 
 ```mermaid
 sequenceDiagram
@@ -32,7 +32,7 @@ sequenceDiagram
     Server-->>User: ✅ Access Granted (Token)
 ```
 
-## 🚀 Quick Start (快速開始)
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -74,7 +74,7 @@ Simulate a user generating a proof and sending it to the server:
 node tests/test_api.js
 ```
 
-## 🛠 Tech Stack (技術堆疊)
+## 🛠 Tech Stack
 
 - **ZK Circuits**: Circom 2.0
 - **Proving System**: Groth16 (SnarkJS)
