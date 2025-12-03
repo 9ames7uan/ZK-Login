@@ -8,13 +8,13 @@
 
 ## 📖 Introduction
 
-**ZK-Bar** 是一個基於零知識證明 (Zero-Knowledge Proofs, ZKPs) 的身分驗證解決方案。它允許使用者向服務提供者證明其符合特定條件（如：年齡大於 18 歲），而**無需上傳身分證照片或洩露具體出生日期**。
+**ZK-Bar** is a privacy-preserving identity verification solution based on Zero-Knowledge Proofs (ZKPs). It allows users to prove they meet specific criteria (e.g., being over 18 years old) to service providers **without uploading ID photos or revealing their exact date of birth**.
 
-本專案包含：
+This project includes:
 
-1.  **Core Circuits**: 使用 Circom 撰寫的 ZK 電路。
-2.  **ZK-Login SDK**: 封裝好的 JavaScript SDK，供開發者快速整合。
-3.  **PoC Server**: 模擬驗證流程的後端範例。
+1.  **Core Circuits**: ZK circuits written in Circom.
+2.  **ZK-Login SDK**: A pre-packaged JavaScript SDK for rapid developer integration.
+3.  **PoC Server**: A backend example simulating the verification process.
 
 ## 🏗 Architecture
 
