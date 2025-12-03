@@ -1,0 +1,12 @@
+node_modules/
+
+# Mac 系統檔案
+.DS_Store
+
+# 環境變數 (如果有 .env 檔，含私鑰)
+.env
+
+# (選用) ZK 相關的大型暫存檔
+# 我們保留 build/ 資料夾以便別人 clone 下來能直接跑
+# 但通常會忽略 ptau (因為可以下載)
+ptau/
