@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZK-Bar Entrance</title>
+    <script src="https://cdn.jsdelivr.net/npm/snarkjs@0.7.0/build/snarkjs.min.js"></script>
+    <style>
+      body {
+        background-color: #0f0f13;
+        color: #ffffff;
+        font-family: "Courier New", Courier, monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        border: 2px solid #ec7e42;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(236, 126, 66, 0.3);
+        max-width: 400px;
+        width: 100%;
+      }
+      h1 {
+        color: #ec7e42;
+        margin-bottom: 10px;
+      }
+      .status {
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #888;
+        min-height: 20px;
+      }
+      .hidden {
+        display: none;
+      }
+
+      button {
+        background: #ec7e42;
+        color: black;
+        border: none;
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+        transition: all 0.3s;
+      }
+      button:hover {
+        background: #ff9f68;
+        transform: scale(1.05);
+      }
+      button:disabled {
+        background: #555;
+        cursor: not-allowed;
+      }
+
+      .id-card {
+        background: #1a1a20;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: left;
+        font-size: 0.8em;
+        border-left: 3px solid #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="login-screen">
+      <h1>🍷 ZK-BAR</h1>
+      <p>MEMBERS ONLY (18+)</p>
+
+      <div class="id-card">
+        <div><strong>Digital ID Loaded:</strong></div>
+        <div id="id-info">Loading wallet...</div>
+        <div style="color: #4caf50; margin-top: 5px">✓ Gov Signed</div>
+      </div>
+
+      <button id="btn-prove" onclick="generateAndVerify()">
+        GENERATE ZK PROOF
+      </button>
+
+      <div class="status" id="status-text">Ready to prove age...</div>
+    </div>
+
+    <div
+      class="container hidden"
+      id="success-screen"
+      style="border-color: #4caf50; box-shadow: 0 0 20px rgba(76, 175, 80, 0.3)"
+    >
+      <h1 style="color: #4caf50">ACCESS GRANTED</h1>
+      <div style="font-size: 50px">✅</div>
+      <p>Zero-Knowledge Verified</p>
+      <div class="id-card" style="border-color: #4caf50">
+        <strong>Entrance Token:</strong><br />
+        <span id="token-display" style="color: #ec7e42">...</span>
+      </div>
+      <button onclick="location.reload()" style="background: #4caf50">
+        BACK
+      </button>
+    </div>
+
+    <script src="logic.js"></script>
+  </body>
+</html>
