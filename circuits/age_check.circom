@@ -1,51 +1,63 @@
 pragma circom 2.0.0;
 
-// 引入 circomlib 的比較器 (Comparators)
-// 注意：node_modules 路徑要正確
 include "../node_modules/circomlib/circuits/comparators.circom";
+// [FIXED] 改用標準 MiMC 版，而非 Sponge 版
+include "../node_modules/circomlib/circuits/eddsamimc.circom"; 
+include "../node_modules/circomlib/circuits/mimc.circom";
 
 template AgeCheck() {
     // ============================================
     // 1. 定義輸入 (Inputs)
     // ============================================
     
-    // Private Inputs (隱私資料：只有使用者知道)
+    // --- Private Inputs ---
     signal input birthYear; 
-    signal input secretSalt; // 隨機亂數，防止暴力破解 (本範例暫未用於 Hash，僅作保留)
+    signal input signatureR8x;
+    signal input signatureR8y;
+    signal input signatureS;
 
-    // Public Inputs (公開資料：驗證者/伺服器知道)
+    // --- Public Inputs ---
     signal input currentYear;
-    signal input ageThreshold; // 例如：18
+    signal input ageThreshold; 
+    signal input pubKeyAx; 
+    signal input pubKeyAy;
 
-    // Output (輸出：1 代表通過，0 代表失敗)
+    // Output
     signal output isAdult;
 
     // ============================================
-    // 2. 邏輯運算 (Logic)
+    // 2. 驗證數位簽章 (Signature Verification)
+    // ============================================
+    
+    // 步驟 A: Hash 訊息 (MiMC7)
+    component hasher = MiMC7(91); 
+    hasher.x_in <== birthYear;
+    hasher.k <== 0; 
+
+    // 步驟 B: 驗證簽章
+    // [FIXED] 改用 EdDSAMiMCVerifier (對應 JS 的 signMiMC)
+    component verifier = EdDSAMiMCVerifier();
+    
+    verifier.enabled <== 1;
+    verifier.Ax <== pubKeyAx;
+    verifier.Ay <== pubKeyAy;
+    verifier.S <== signatureS;
+    verifier.R8x <== signatureR8x;
+    verifier.R8y <== signatureR8y;
+    verifier.M <== hasher.out;
+
+    // ============================================
+    // 3. 邏輯運算 (年齡檢查)
     // ============================================
 
-    // 計算年齡: age = currentYear - birthYear
     signal age;
     age <== currentYear - birthYear;
 
-    // 檢查: age >= ageThreshold
-    // 我們使用 GreaterEqThan(n) 模板，n 是位元數。
-    // 7 bits 足夠表示 0-127 歲
     component ge = GreaterEqThan(7); 
-    
     ge.in[0] <== age;
     ge.in[1] <== ageThreshold;
 
-    // 將比較結果輸出
     isAdult <== ge.out;
-
-    // ============================================
-    // 3. 強制約束 (Constraints) - 選用
-    // ============================================
-    // 如果希望「未滿 18 歲連 Proof 都產生不了」，可以加上這行：
-    // isAdult === 1;
 }
 
-// 定義 Main Component
-// public inputs 宣告哪些變數是公開的 (Verifier 必須知道 currentYear 和門檻)
-component main {public [currentYear, ageThreshold]} = AgeCheck();
+component main {public [currentYear, ageThreshold, pubKeyAx, pubKeyAy]} = AgeCheck();
